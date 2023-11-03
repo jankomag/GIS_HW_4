@@ -1,0 +1,28 @@
+```{r}
+library(tidyverse)
+library(terra)
+library(here)
+library(rgdal)
+library(sf)
+library(sp)
+library(dplyr)
+library(classInt)
+library(tmap)
+library(RColorBrewer)
+library(htmltools)
+```
+
+```{r}
+global_index <- st_read("genderInequalityIndex.shp")
+```
+
+```{r}
+map <- tm_shape(global_index) +
+  tm_borders(lwd = 0.3) +
+  tm_fill("gii_dff", midpoint=0, palette=brewer.pal(6, "RdBu"),
+          title = paste("Change in Gender Inequality Index (2019-2010)"),
+          textNA = "Unknown", style="jenks") +
+  tm_layout(legend.width =0.3,
+          legend.position = c("left","bottom"))
+tmap_save(map, "map.png")
+```
